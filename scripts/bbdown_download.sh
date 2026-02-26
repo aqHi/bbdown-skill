@@ -33,6 +33,17 @@ need_cmd() {
   }
 }
 
+# BBDown 在不同安装方式下可能是 `BBDown`（官方 release）或 `bbdown`（部分包管理器/别名）。
+pick_bbdown_cmd() {
+  if command -v bbdown >/dev/null 2>&1; then
+    echo "bbdown"; return 0
+  fi
+  if command -v BBDown >/dev/null 2>&1; then
+    echo "BBDown"; return 0
+  fi
+  echo ""; return 1
+}
+
 URL=""
 OUT_DIR=""
 DFN_PRIORITY=""
@@ -86,9 +97,14 @@ if [[ -z "$URL" ]]; then
   exit 2
 fi
 
-need_cmd bbdown
+BBDOWN_BIN="$(pick_bbdown_cmd || true)"
+if [[ -z "$BBDOWN_BIN" ]]; then
+  echo "ERROR: missing command: BBDown (or bbdown)" >&2
+  echo "Hint: install from https://github.com/nilaoda/BBDown/releases and put BBDown on PATH." >&2
+  exit 1
+fi
 
-CMD=(bbdown "$URL")
+CMD=($BBDOWN_BIN "$URL")
 
 if [[ -n "$OUT_DIR" ]]; then
   mkdir -p "$OUT_DIR"

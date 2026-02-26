@@ -1,22 +1,39 @@
 # bbdown-skill
 
-An OpenClaw/Codex AgentSkill for downloading bilibili videos via [nilaoda/BBDown](https://github.com/nilaoda/BBDown).
+An OpenClaw AgentSkill for downloading bilibili videos via [nilaoda/BBDown](https://github.com/nilaoda/BBDown).
 
-## What's inside
+- English README (this file)
+- 中文说明：`docs/README.zh-CN.md`
 
-- `SKILL.md` — the Skill definition
-- `scripts/bbdown_download.sh` — stable wrapper around BBDown
-- `docs/README.zh-CN.md` — 中文说明文档
+## What’s inside
 
-## Install (via link)
+- `SKILL.md` — the Skill definition (how OpenClaw discovers/uses it)
+- `scripts/bbdown_download.sh` — a stable wrapper around BBDown for agents/humans
+- `docs/README.zh-CN.md` — Chinese usage & troubleshooting
 
-### Option A: install into OpenClaw workspace skills (recommended)
+## Prerequisites (BBDown)
+
+You must have **BBDown** installed and available on PATH.
+
+Notes:
+- Homebrew usually **does not** provide a working `bbdown` formula. Prefer GitHub Releases or dotnet tool.
+- Depending on install method, the executable may be `BBDown` (official releases) or `bbdown`.
+
+Quick check:
 
 ```bash
-mkdir -p /Users/aqhi/.openclaw/workspace/skills
-cd /Users/aqhi/.openclaw/workspace/skills
+BBDown --help || true
+bbdown --help || true
+```
 
-# clone by URL
+## Install this skill
+
+### Option A: clone into OpenClaw workspace skills (recommended)
+
+```bash
+mkdir -p ~/.openclaw/workspace/skills
+cd ~/.openclaw/workspace/skills
+
 git clone https://github.com/aqHi/bbdown-skill.git bbdown
 ```
 
@@ -28,14 +45,24 @@ Download: <https://github.com/aqHi/bbdown-skill/archive/refs/heads/main.zip>
 
 Unzip into your OpenClaw skills directory and rename the folder to `bbdown`.
 
-## Local test
+## Usage (wrapper)
+
+The recommended entrypoint is:
 
 ```bash
-# Ensure bbdown is installed
-bbdown -h
-
-bash scripts/bbdown_download.sh 'https://www.bilibili.com/video/BVxxxxxxxxx' --out-dir ./downloads --debug
+bash scripts/bbdown_download.sh '<bilibili_url>' --out-dir ./downloads
 ```
+
+Audio-only example:
+
+```bash
+bash scripts/bbdown_download.sh 'https://www.bilibili.com/video/BVxxxxxxxxx' --out-dir ./downloads -- --audio-only
+```
+
+## Cross-platform notes
+
+- **macOS/Linux**: the wrapper is `bash`.
+- **Windows**: you can still use BBDown directly, or run the wrapper via WSL/Git-Bash. (PRs welcome for a PowerShell wrapper.)
 
 ## License
 

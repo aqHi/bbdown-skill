@@ -6,10 +6,32 @@
 
 ## 1. 依赖
 
-- 已安装 **BBDown** 且命令在 PATH 中：
-  - macOS（Homebrew）：`brew install bbdown`
-  - 其他安装方式参考 BBDown 官方仓库。
+- 已安装 **BBDown** 且命令在 PATH 中。
+
+  > 备注：Homebrew 里通常**没有** `bbdown` 这个 formula（`brew install bbdown` 很可能失败）。
+
+  推荐两种安装方式：
+
+  1) **GitHub Releases（二进制，最省事）**：
+     - 打开：https://github.com/nilaoda/BBDown/releases
+     - 下载与你系统匹配的包（例如 macOS Apple Silicon 通常是 `osx-arm64`）
+     - 解压后把 `BBDown` 放到 PATH（例如 `~/.local/bin/BBDown`）
+
+  2) **dotnet tool**（需要已安装 dotnet）：
+     - 安装：`dotnet tool install --global BBDown`
+     - 更新：`dotnet tool update --global BBDown`
+
 - 如果需要混流（音视频合并）：通常还需要 `ffmpeg` 或 `mp4box`（BBDown 会提示）。
+
+### 1.1 安装检查
+
+运行下面任意一个命令能正常输出帮助/版本，就说明安装 OK：
+
+```bash
+BBDown --help
+# 或
+bbdown --help
+```
 
 ## 2. 安装 Skill（通过链接）
 
