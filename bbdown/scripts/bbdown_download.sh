@@ -7,16 +7,22 @@ set -euo pipefail
 usage() {
   cat <<'EOF'
 Usage:
-  bbdown_download.sh <bilibili_url> [--out-dir DIR] [--quality QN] [--cookies FILE] [--debug] [--] [extra BBDown args...]
+  bbdown_download.sh <bilibili_url>
+    [--out-dir DIR]
+    [--dfn-priority "8K 超高清, 1080P 高码率"]
+    [--cookie STRING | --cookie-file FILE]
+    [--debug]
+    [--] [extra BBDown args...]
 
 Examples:
   bbdown_download.sh 'https://www.bilibili.com/video/BVxxxx'
-  bbdown_download.sh 'https://www.bilibili.com/video/BVxxxx' --out-dir ./downloads --quality 80
-  bbdown_download.sh 'https://www.bilibili.com/video/BVxxxx' --cookies ./cookies.txt
+  bbdown_download.sh 'https://www.bilibili.com/video/BVxxxx' --out-dir ./downloads --dfn-priority "1080P 高码率, 1080P 高清"
+  bbdown_download.sh 'https://www.bilibili.com/video/BVxxxx' --cookie-file ./cookie.txt
+  bbdown_download.sh 'https://www.bilibili.com/video/BVxxxx' -- --audio-only
 
 Notes:
-  - --quality is passed to BBDown as "--quality <QN>" (if supported by your BBDown version).
   - Any extra args after "--" are passed through to BBDown.
+  - For VIP/limited content, use --cookie/--cookie-file, or run: BBDown login
 EOF
 }
 
@@ -29,8 +35,9 @@ need_cmd() {
 
 URL=""
 OUT_DIR=""
-QUALITY=""
-COOKIES=""
+DFN_PRIORITY=""
+COOKIE_STRING=""
+COOKIE_FILE=""
 DEBUG=0
 PASS=()
 
@@ -43,11 +50,18 @@ while [[ $# -gt 0 ]]; do
     --out-dir)
       OUT_DIR="${2:-}"; shift 2
       ;;
-    --quality)
-      QUALITY="${2:-}"; shift 2
+    --dfn-priority)
+      DFN_PRIORITY="${2:-}"; shift 2
       ;;
-    --cookies)
-      COOKIES="${2:-}"; shift 2
+    # Back-compat: map old --quality to --dfn-priority
+    --quality)
+      DFN_PRIORITY="${2:-}"; shift 2
+      ;;
+    --cookie)
+      COOKIE_STRING="${2:-}"; shift 2
+      ;;
+    --cookie-file|--cookies)
+      COOKIE_FILE="${2:-}"; shift 2
       ;;
     --debug)
       DEBUG=1; shift
@@ -74,7 +88,6 @@ fi
 
 need_cmd bbdown
 
-# Build BBDown command.
 CMD=(bbdown "$URL")
 
 if [[ -n "$OUT_DIR" ]]; then
@@ -82,19 +95,24 @@ if [[ -n "$OUT_DIR" ]]; then
   CMD+=(--work-dir "$OUT_DIR")
 fi
 
-if [[ -n "$QUALITY" ]]; then
-  CMD+=(--quality "$QUALITY")
+if [[ -n "$DFN_PRIORITY" ]]; then
+  CMD+=(--dfn-priority "$DFN_PRIORITY")
 fi
 
-if [[ -n "$COOKIES" ]]; then
-  if [[ ! -f "$COOKIES" ]]; then
-    echo "ERROR: cookies file not found: $COOKIES" >&2
+if [[ -n "$COOKIE_FILE" ]]; then
+  if [[ ! -f "$COOKIE_FILE" ]]; then
+    echo "ERROR: cookie file not found: $COOKIE_FILE" >&2
     exit 2
   fi
-  CMD+=(--cookie "$COOKIES")
+  # BBDown expects a cookie string (e.g., "SESSDATA=...; bili_jct=..."),
+  # so we read the file content and pass it via -c/--cookie.
+  COOKIE_STRING="$(tr -d '\n' < "$COOKIE_FILE")"
 fi
 
-# Pass-through args
+if [[ -n "$COOKIE_STRING" ]]; then
+  CMD+=(--cookie "$COOKIE_STRING")
+fi
+
 if [[ ${#PASS[@]} -gt 0 ]]; then
   CMD+=("${PASS[@]}")
 fi
