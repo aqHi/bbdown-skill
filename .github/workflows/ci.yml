@@ -5,6 +5,17 @@ on:
   pull_request:
 
 jobs:
+  bash-n:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: bash -n (syntax check)
+        run: |
+          set -euo pipefail
+          for f in scripts/*.sh; do
+            bash -n "$f"
+          done
+
   shellcheck:
     runs-on: ubuntu-latest
     steps:
