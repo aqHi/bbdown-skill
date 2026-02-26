@@ -7,6 +7,16 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Shell](https://img.shields.io/badge/shell-bash-4EAA25)](#)
 
+## Table of contents
+
+- [What’s inside](#whats-inside)
+- [Prerequisites (BBDown)](#prerequisites-bbdown)
+- [Install this skill](#install-this-skill)
+- [Usage (wrapper)](#usage-wrapper)
+- [FAQ / Troubleshooting](#faq--troubleshooting)
+- [Cross-platform notes](#cross-platform-notes)
+- [License](#license)
+
 ## What’s inside
 
 - `SKILL.md` — the Skill definition (how OpenClaw discovers/uses it)
@@ -70,6 +80,12 @@ Audio-only example:
 ```bash
 bash scripts/bbdown_download.sh 'https://www.bilibili.com/video/BVxxxxxxxxx' --out-dir ./downloads -- --audio-only
 ```
+
+## FAQ / Troubleshooting
+
+- **CI fails on shellcheck**: this repo uses ShellCheck in GitHub Actions; please keep scripts ShellCheck-clean.
+- **403 / VIP / region limits**: use `--cookie` / `--cookie-file`, or run `BBDown login` to authenticate.
+- **Audio-only**: pass through `-- --audio-only` to the wrapper.
 
 ## Cross-platform notes
 

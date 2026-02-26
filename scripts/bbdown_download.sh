@@ -104,7 +104,7 @@ if [[ -z "$BBDOWN_BIN" ]]; then
   exit 1
 fi
 
-CMD=($BBDOWN_BIN "$URL")
+CMD=("$BBDOWN_BIN" "$URL")
 
 if [[ -n "$OUT_DIR" ]]; then
   mkdir -p "$OUT_DIR"
