@@ -1,5 +1,7 @@
 # BBDown Skill（OpenClaw）中文说明
 
+**简体中文** | **[English](../README.md)**
+
 这是一个给 OpenClaw/Codex 用的 Skill：把 [nilaoda/BBDown](https://github.com/nilaoda/BBDown) 常见的下载流程整理成更稳定、好调用的脚本与范例。
 
 > 免责声明：请确保你的使用场景符合当地法律法规与 B 站条款，仅在你拥有合法授权的前提下下载内容。
@@ -23,7 +25,17 @@
 
 - 如果需要混流（音视频合并）：通常还需要 `ffmpeg` 或 `mp4box`（BBDown 会提示）。
 
-### 1.1 安装检查
+### 1.1 一键安装（推荐）
+
+本仓库提供了一个安装脚本，会自动从 GitHub Releases 下载适配你系统的 BBDown：
+
+```bash
+bash scripts/install_bbdown.sh
+```
+
+默认会安装到：`~/.local/bin/BBDown`。
+
+### 1.2 安装检查
 
 运行下面任意一个命令能正常输出帮助/版本，就说明安装 OK：
 

@@ -1,9 +1,11 @@
 # bbdown-skill
 
-An OpenClaw AgentSkill for downloading bilibili videos via [nilaoda/BBDown](https://github.com/nilaoda/BBDown).
+**OpenClaw AgentSkill** for downloading bilibili videos via [nilaoda/BBDown](https://github.com/nilaoda/BBDown).
 
-- English README (this file)
-- 中文说明：`docs/README.zh-CN.md`
+**English** | **[简体中文](docs/README.zh-CN.md)**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Shell](https://img.shields.io/badge/shell-bash-4EAA25)](#)
 
 ## What’s inside
 
@@ -18,6 +20,16 @@ You must have **BBDown** installed and available on PATH.
 Notes:
 - Homebrew usually **does not** provide a working `bbdown` formula. Prefer GitHub Releases or dotnet tool.
 - Depending on install method, the executable may be `BBDown` (official releases) or `bbdown`.
+
+### Install helper (recommended)
+
+This repo includes an installer that downloads the correct BBDown release for your OS/arch:
+
+```bash
+bash scripts/install_bbdown.sh
+# then
+BBDown --help
+```
 
 Quick check:
 
