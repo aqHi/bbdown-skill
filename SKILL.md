@@ -9,8 +9,12 @@ description: Download bilibili videos using BBDown (nilaoda/BBDown). Use when th
 
 1) Ensure BBDown is installed and on PATH.
 
-- macOS (Homebrew): `brew install bbdown`
-- Or install via dotnet tool / release binaries: https://github.com/nilaoda/BBDown
+> 注：Homebrew 里通常**没有** `bbdown` 这个 formula（`brew install bbdown` 很可能失败）。
+
+推荐两种安装方式：
+
+- **GitHub Releases（二进制，最省事）**：到 https://github.com/nilaoda/BBDown/releases 下载对应平台压缩包（macOS Apple Silicon 通常是 `osx-arm64`），解压后把 `BBDown` 放到 PATH（例如 `~/.local/bin/BBDown`）。
+- **dotnet tool**：需要本机已安装 `dotnet`，再执行 `dotnet tool install --global BBDown`（或更新：`dotnet tool update --global BBDown`）。
 
 2) Download a video
 
