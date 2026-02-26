@@ -1,4 +1,4 @@
-# openclaw-skill-bbdown
+# bbdown-skill
 
 An OpenClaw/Codex AgentSkill for downloading bilibili videos via [nilaoda/BBDown](https://github.com/nilaoda/BBDown).
 
